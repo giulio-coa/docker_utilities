@@ -1,0 +1,237 @@
+version: "3.9"
+services:
+  selenium-chrome:
+    container_name: container-selenium-chrome
+    image: selenium/node-chrome:latest
+    depends_on:
+      - selenium-hub
+    env_file: .env
+    networks:
+      - network-test
+    profiles:
+      - test
+    read_only: true
+    restart: unless-stopped
+    shm_size: 2G
+    volumes:
+      - type: volume
+        source: volume-selenium-chrome
+        target: /opt/selenium
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/log/supervisor
+      - type: tmpfs
+        target: /var/run/supervisor
+  selenium-chrome-video:
+    container_name: container-selenium-chrome-video
+    image: selenium/video:latest
+    depends_on:
+      - selenium-chrome
+    environment:
+      DISPLAY_CONTAINER_NAME: selenium-chrome
+      FILE_NAME: selenium-chrome_video.mp4
+    networks:
+      - network-test
+    profiles:
+      - test
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: volume-selenium-chrome-video
+        target: /videos
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/log/supervisor
+      - type: tmpfs
+        target: /var/run/supervisor
+  selenium-edge:
+    container_name: container-selenium-edge
+    image: selenium/node-edge:latest
+    depends_on:
+      - selenium-hub
+    env_file: .env
+    networks:
+      - network-test
+    profiles:
+      - test
+    read_only: true
+    restart: unless-stopped
+    shm_size: 2G
+    volumes:
+      - type: volume
+        source: volume-selenium-edge
+        target: /opt/selenium
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/log/supervisor
+      - type: tmpfs
+        target: /var/run/supervisor
+  selenium-edge-video:
+    container_name: container-selenium-edge-video
+    image: selenium/video:latest
+    depends_on:
+      - selenium-edge
+    environment:
+      DISPLAY_CONTAINER_NAME: selenium-edge
+      FILE_NAME: selenium-edge_video.mp4
+    networks:
+      - network-test
+    profiles:
+      - test
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: volume-selenium-edge-video
+        target: /videos
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/log/supervisor
+      - type: tmpfs
+        target: /var/run/supervisor
+  selenium-firefox:
+    container_name: container-selenium-firefox
+    image: selenium/node-firefox:latest
+    depends_on:
+      - selenium-hub
+    env_file: .env
+    networks:
+      - network-test
+    profiles:
+      - test
+    read_only: true
+    restart: unless-stopped
+    shm_size: 2G
+    volumes:
+      - type: volume
+        source: volume-selenium-firefox
+        target: /opt/selenium
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/log/supervisor
+      - type: tmpfs
+        target: /var/run/supervisor
+  selenium-firefox-video:
+    container_name: container-selenium-firefox-video
+    image: selenium/video:latest
+    depends_on:
+      - selenium-firefox
+    environment:
+      DISPLAY_CONTAINER_NAME: selenium-firefox
+      FILE_NAME: selenium-firefox_video.mp4
+    networks:
+      - network-test
+    profiles:
+      - test
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: volume-selenium-firefox-video
+        target: /videos
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/log/supervisor
+      - type: tmpfs
+        target: /var/run/supervisor
+  selenium-hub:
+    container_name: container-selenium-hub
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "/opt/bin/check-grid.sh",
+          "--host",
+          "0.0.0.0",
+          "--port",
+          "4444"
+        ]
+      interval: 15s
+      timeout: 30s
+      retries: 5
+    image: selenium/hub:latest
+    networks:
+      network-test:
+        aliases:
+          - selenium.local
+    ports:
+      - target: 4444
+        published: 4444
+    profiles:
+      - test
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/log/supervisor
+      - type: tmpfs
+        target: /var/run/supervisor
+  selenium-opera:
+    container_name: container-selenium-opera
+    image: selenium/node-opera:latest
+    depends_on:
+      - selenium-hub
+    env_file: .env
+    networks:
+      - network-test
+    profiles:
+      - test
+    read_only: true
+    restart: unless-stopped
+    shm_size: 2G
+    volumes:
+      - type: volume
+        source: volume-selenium-opera
+        target: /opt/selenium
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/log/supervisor
+      - type: tmpfs
+        target: /var/run/supervisor
+  selenium-opera-video:
+    container_name: container-selenium-opera-video
+    image: selenium/video:latest
+    depends_on:
+      - selenium-opera
+    environment:
+      DISPLAY_CONTAINER_NAME: selenium-opera
+      FILE_NAME: selenium-opera_video.mp4
+    networks:
+      - network-test
+    profiles:
+      - test
+    read_only: true
+    restart: unless-stopped
+    volumes:
+      - type: volume
+        source: volume-selenium-opera-video
+        target: /videos
+      - type: tmpfs
+        target: /tmp
+      - type: tmpfs
+        target: /var/log/supervisor
+      - type: tmpfs
+        target: /var/run/supervisor
+networks:
+  network-test:
+    attachable: true
+    driver: overlay
+volumes:
+  volume-selenium-chrome: null
+  volume-selenium-chrome-video: null
+  volume-selenium-edge: null
+  volume-selenium-edge-video: null
+  volume-selenium-firefox: null
+  volume-selenium-firefox-video: null
+  volume-selenium-opera: null
+  volume-selenium-opera-video: null
