@@ -4,6 +4,8 @@
 if [ ! -f ./build.sh ]
 then
 	wget -O build.sh https://raw.githubusercontent.com/giulio-coa/docker_utilities/master/build.sh
+
+	chmod 755 build.sh
 fi
 
 clear
