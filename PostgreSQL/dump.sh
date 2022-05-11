@@ -1,5 +1,12 @@
 #!/bin/sh
 
+#################################################################################
+#	Filename:		.../dump.sh													#
+#	Purpose:		Script that dump a PostgreSQL database						#
+#	Authors:		Giulio Coa <34110430+giulioc008@users.noreply.github.com>	#
+#	License:		This file is licensed under the LGPLv3.						#
+#################################################################################
+
 # Load the enviroment variables
 source .env
 
@@ -16,11 +23,11 @@ clear
 
 # Set the name of the docker-compose project
 # The default value is the name of the directory where the script is run
-COMPOSE_PROJECT_NAME=$(basename $(dirname $PWD))
+COMPOSE_PROJECT_NAME=$(basename $(dirname "${PWD}"))
 
 echo '[INFO]: Starting the dump of the database'
-docker-compose exec --user postgres $NAME_OF_DB_SERVICE pg_dump --dbname="${NAME_OF_THE_DB}" --file="${DOCKER_PATH_TO_THE_SQL_DUMP}/dump.sql" --disable-dollar-quoting --no-unlogged-table-data --quote-all-identifiers --serializable-deferrable && \
-docker-compose exec --user postgres $NAME_OF_DB_SERVICE tar --create --overwrite --remove-files --force-local --file="${DOCKER_PATH_TO_THE_BZIP}/dump.tar.bz2" --bzip2 --verbose --directory="${DOCKER_PATH_TO_THE_SQL_DUMP}" dump.sql && \
+docker-compose exec --user postgres "${NAME_OF_DB_SERVICE}" pg_dump --dbname="${NAME_OF_THE_DB}" --file="${DOCKER_PATH_TO_THE_SQL_DUMP}/dump.sql" --disable-dollar-quoting --no-unlogged-table-data --quote-all-identifiers --serializable-deferrable && \
+docker-compose exec --user postgres "${NAME_OF_DB_SERVICE}" tar --create --overwrite --remove-files --force-local --file="${DOCKER_PATH_TO_THE_BZIP}/dump.tar.bz2" --bzip2 --verbose --directory="${DOCKER_PATH_TO_THE_SQL_DUMP}" dump.sql && \
 echo '[INFO]: Finished the dump of the database'
 
 echo '[INFO]: Copying the bzip2 version of the dump of the database'
@@ -28,5 +35,5 @@ docker cp "container-${NAME_OF_DB_SERVICE}:${DOCKER_PATH_TO_THE_BZIP}/dump.tar.b
 echo '[INFO]: Copied the bzip2 version of the dump of the database'
 
 echo '[INFO]: Removing the bzip2 version of the dump of the database'
-docker-compose exec --user postgres $NAME_OF_DB_SERVICE rm -rf "${DOCKER_PATH_TO_THE_BZIP}/dump.tar.bz2" && \
+docker-compose exec --user postgres "${NAME_OF_DB_SERVICE}" rm -rf "${DOCKER_PATH_TO_THE_BZIP}/dump.tar.bz2" && \
 echo '[INFO]: Removed the bzip2 version of the dump of the database'

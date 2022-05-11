@@ -1,4 +1,12 @@
 #!/bin/sh
+# ./build.sh
+
+#################################################################################
+#	Filename:		.../build.sh												#
+#	Purpose:		Script that build a docker-compose project					#
+#	Authors:		Giulio Coa <34110430+giulioc008@users.noreply.github.com>	#
+#	License:		This file is licensed under the LGPLv3.						#
+#################################################################################
 
 clear
 
@@ -13,7 +21,7 @@ clear
 
 # Set the name of the docker-compose project
 # The default value is the name of the directory where the script is run
-COMPOSE_PROJECT_NAME=$(basename $(dirname $PWD))
+COMPOSE_PROJECT_NAME=$(basename $(dirname "${PWD}"))
 
 docker-compose rm -v --force --stop 2> /dev/null
 docker-compose down --volumes --rmi 'local' --remove-orphans 2> /dev/null
