@@ -35,5 +35,5 @@ docker cp "container-${NAME_OF_DB_SERVICE}:${DOCKER_PATH_TO_THE_BZIP}/dump.tar.b
 echo '[INFO]: Copied the bzip2 version of the dump of the database'
 
 echo '[INFO]: Removing the bzip2 version of the dump of the database'
-docker-compose exec --user postgres "${NAME_OF_DB_SERVICE}" rm -rf "${DOCKER_PATH_TO_THE_BZIP}/dump.tar.bz2" && \
+docker-compose exec --user postgres "${NAME_OF_DB_SERVICE}" rm --recursive --force "${DOCKER_PATH_TO_THE_BZIP}/dump.tar.bz2" && \
 echo '[INFO]: Removed the bzip2 version of the dump of the database'

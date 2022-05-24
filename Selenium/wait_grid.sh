@@ -14,8 +14,8 @@ source .env
 
 clear
 
-while ! curl -sSL "http://selenium.local:${SE_NODE_GRID_URL##*:}/wd/hub/status" 2> /dev/stdout | \
-	jq -r '.value.ready' 2> /dev/stdout | \
+while ! curl --silent --show-error --location "http://selenium.local:${SE_NODE_GRID_URL##*:}/wd/hub/status" 2> /dev/stdout | \
+	jq --raw-output '.value.ready' 2> /dev/stdout | \
 	grep 'true' > /dev/null
 do
 	sleep 1

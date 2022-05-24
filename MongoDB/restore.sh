@@ -27,7 +27,7 @@ COMPOSE_PROJECT_NAME=$(basename $(dirname "${PWD}"))
 
 echo '[INFO]: Extracting the dump of the database'
 docker-compose exec "${NAME_OF_DB_SERVICE}" tar --extract --overwrite --remove-files --force-local --file="${DOCKER_PATH_TO_THE_BZIP}/dump.tar.bz2" --verbose --directory="${DOCKER_PATH_TO_THE_BZIP}/" && \
-docker-compose exec "${NAME_OF_DB_SERVICE}" rm -rf "${DOCKER_PATH_TO_THE_BZIP}/dump.tar.bz2" && \
+docker-compose exec "${NAME_OF_DB_SERVICE}" rm --recursive --force "${DOCKER_PATH_TO_THE_BZIP}/dump.tar.bz2" && \
 echo '[INFO]: Extracted the dump of the database'
 
 echo '[INFO]: Starting the restore of the database'
