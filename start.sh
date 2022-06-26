@@ -1,11 +1,11 @@
 #!/bin/sh
 
-#################################################################################
-#	Filename:		./start.sh													#
-#	Purpose:		Script that start a docker-compose project					#
+#################################################################################################
+#	Filename:		./start.sh							#
+#	Purpose:		Script that start a docker-compose project			#
 #	Authors:		Giulio Coa <34110430+giulioc008@users.noreply.github.com>	#
-#	License:		This file is licensed under the LGPLv3.						#
-#################################################################################
+#	License:		This file is licensed under the LGPLv3.				#
+#################################################################################################
 
 __start() {
 	local __BUILD
@@ -87,9 +87,10 @@ __start() {
 		# i.e.: COMPOSE_PROFILES=development,test
 		#COMPOSE_PROFILES=
 
-		# Set the name of the docker-compose project
-		# The default value is the name of the directory where the script is run
-		COMPOSE_PROJECT_NAME=$(basename $(dirname "${PWD}"))
+		# Uncomment this line if there isn't a name top-level element into the docker-compose file
+		# i.e.: COMPOSE_PROJECT_NAME=$(basename $(dirname "${PWD}"))
+		#       COMPOSE_PROJECT_NAME=Generic Docker Compose project
+		#COMPOSE_PROJECT_NAME=
 	fi
 
 	docker-compose start
