@@ -1,5 +1,4 @@
 version: "3.9"
-name: Selenium infrastructure
 services:
   selenium-chrome:
     container_name: container-selenium-chrome

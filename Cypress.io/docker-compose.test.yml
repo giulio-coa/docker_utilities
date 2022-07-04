@@ -1,5 +1,4 @@
 version: "3.9"
-name: Cypress.io infrastructure
 services:
   cypress-api:
     container_name: container-cypress-api
