@@ -2,21 +2,30 @@
 A repository with some utilities for Docker containers.
 
 # Contents
-* [MongoDB section](#mongodb-section)
-* [MySQL and MariaDB section](#mysql-and-mariadb-section)
-* [PostgreSQL section](#postgresql-section)
+* [databases section](#databases-section)
+* [frameworks section](#frameworks-section)
+* [services section](#services-section)
 * [Scripts](#scripts)
 	- [build.sh](#buildsh)
 	- [start.sh](#startsh)
 
-# MongoDB section
-This section provides some utilities for a MongoDB container.
+# databases section
+Questa sezione fornisce alcune utilità per il dump e/o il ripristino di vari tipi di database.
+Databases supported:
+* [MongoDB](/databases/MongoDB/README.md)
+* [MySQL and MariaDB](/databases/MySQL/README.md)
+* [PostgreSQL](/databases/PostgreSQL/README.md)
 
-# MySQL and MariaDB section
-This section provides some utilities for a MySQL/MariaDB container.
+# frameworks section
+This section provides some utilities for building the infrastructure of various frameworks.
+Frameworks supported:
+* [Cypress.io](/frameworks/Cypress.io/README.md)
+* [Selenium](/frameworks/Selenium/README.md)
 
-# PostgreSQL section
-This section provides some utilities for a PostgreSQL container.
+# services section
+This section provides some utilities for building the infrastructure of various services.
+Services supported:
+* [Pi-Hole](/frameworks/Pi-Hole/README.md)
 
 # Scripts
 ## build.sh
