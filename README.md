@@ -22,11 +22,6 @@ Frameworks supported:
 * [Cypress.io](/frameworks/Cypress.io/README.md)
 * [Selenium](/frameworks/Selenium/README.md)
 
-# services section
-This section provides some utilities for building the infrastructure of various services.
-Services supported:
-* [Pi-Hole](/frameworks/Pi-Hole/README.md)
-
 # Scripts
 ## build.sh
 This file provides the Shell script to build a Docker enviroment.
