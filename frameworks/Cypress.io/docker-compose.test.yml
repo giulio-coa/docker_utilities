@@ -5,108 +5,79 @@ services:
     depends_on:
       - cypress-db
     env_file: sorry_cypress/.env
+    expose:
+      - "4000"
     image: agoldis/sorry-cypress-api:latest
     networks:
-      - network-test
-    ports:
-      - target: 4000
-        published: 4000
+      cypress:
+        ipv4_address: 172.150.5.2
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
   cypress-dashboard:
-    # build:
-    #   context: sorry_cypress/
-    #   dockerfile: dashboard.Dockerfile
     container_name: container-cypress-dashboard
     depends_on:
       - cypress-api
       - cypress-db
     environment:
-      GRAPHQL_SCHEMA_URL: http://localhost:4000
+      GRAPHQL_SCHEMA_URL: http://172.150.5.2:4000
       PORT: 6749
+    expose:
+      - "6749"
     image: agoldis/sorry-cypress-dashboard:latest
     networks:
-      network-test:
-        aliases:
-          - cypress.local
-    ports:
-      - target: 6749
-        published: 6749
+      test:
+        ipv4_address: 172.150.0.2
+      cypress:
+        ipv4_address: 172.150.5.10
     profiles:
       - test
-    # read_only: true
     restart: unless-stopped
-    # volumes:
-    #   - type: volume
-    #     source: volume-cypress-dashboard
-    #     target: /opt
   cypress-db:
     build:
       context: sorry_cypress/
       dockerfile: db.Dockerfile
     container_name: container-cypress-db
+    expose:
+      - "27017"
     networks:
-      - network-test
+      cypress:
+        ipv4_address: 172.150.5.3
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
     volumes:
       - type: volume
         source: volume-cypress-db
         target: /data
-      - type: tmpfs
-        target: /tmp
   cypress-director:
-    # build:
-    #   context: sorry_cypress/
-    #   dockerfile: director.Dockerfile
     container_name: container-cypress-director
     depends_on:
       - cypress-db
     env_file: sorry_cypress/.env
     environment:
-      DASHBOARD_URL: http://cypress.local/
+      DASHBOARD_URL: http://172.150.0.2/
       EXECUTION_DRIVER: "../execution/mongo/driver"
       SCREENSHOTS_DRIVER: "../screenshots/dummy.driver"
+    expose:
+      - "1234"
     image: agoldis/sorry-cypress-director:latest
     networks:
-      - network-test
+      cypress:
+        ipv4_address: 172.150.5.4
     profiles:
       - test
-    # read_only: true
-    restart: unless-stopped
-    # volumes:
-    #   - type: volume
-    #     source: volume-cypress-director
-    #     target: /opt
-  socat:
-    build:
-      context: socat/
-      dockerfile: Dockerfile
-    container_name: container-socat
-    depends_on:
-      - cypress-director
-    networks:
-      - network-test
-    ports:
-      # Port to publish to run sorry-cypress director
-      - target: 4321
-        published: 4321
-      # Port to publish to use instrument like MongoDB Compass, etc. on the test database
-      - target: 15034
-        published: 15034
-    profiles:
-      - test
-    read_only: true
     restart: unless-stopped
 networks:
-  network-test:
-    attachable: true
-    driver: overlay
+  test:
+    name: test-network
+    ipam:
+      config:
+        - subnet: 172.150.0.0/24
+  cypress:
+    name: cypress-network
+    ipam:
+      config:
+        - subnet: 172.150.5.0/24
 volumes:
   volume-cypress-db: null
-  # volume-cypress-dashboard: null
-  # volume-cypress-director: null
