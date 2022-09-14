@@ -2,147 +2,105 @@ version: "3.9"
 services:
   selenium-chrome:
     container_name: container-selenium-chrome
-    image: selenium/node-chrome:latest
+    image: selenium/node-chrome:4.4.0
     depends_on:
       - selenium-hub
     env_file: .env
+    environment:
+      SE_NODE_HOST: 172.150.5.2
+      JAVA_OPTS: -Dwebdriver.chrome.whitelistedIps=
     networks:
-      - network-test
+      selenium:
+        ipv4_address: 172.150.5.2
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
     shm_size: 2G
-    volumes:
-      - type: volume
-        source: volume-selenium-chrome
-        target: /opt/selenium
-      - type: tmpfs
-        target: /tmp
-      - type: tmpfs
-        target: /var/log/supervisor
-      - type: tmpfs
-        target: /var/run/supervisor
   selenium-chrome-video:
     container_name: container-selenium-chrome-video
-    image: selenium/video:latest
+    image: selenium/video:ffmpeg-4.3.1-20200921
     depends_on:
       - selenium-chrome
     environment:
       DISPLAY_CONTAINER_NAME: selenium-chrome
       FILE_NAME: selenium-chrome_video.mp4
     networks:
-      - network-test
+      - selenium
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
     volumes:
       - type: volume
         source: volume-selenium-chrome-video
         target: /videos
-      - type: tmpfs
-        target: /tmp
-      - type: tmpfs
-        target: /var/log/supervisor
-      - type: tmpfs
-        target: /var/run/supervisor
   selenium-edge:
     container_name: container-selenium-edge
-    image: selenium/node-edge:latest
+    image: selenium/node-edge:4.4.0
     depends_on:
       - selenium-hub
     env_file: .env
+    environment:
+      SE_NODE_HOST: 172.150.5.3
     networks:
-      - network-test
+      selenium:
+        ipv4_address: 172.150.5.3
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
     shm_size: 2G
-    volumes:
-      - type: volume
-        source: volume-selenium-edge
-        target: /opt/selenium
-      - type: tmpfs
-        target: /tmp
-      - type: tmpfs
-        target: /var/log/supervisor
-      - type: tmpfs
-        target: /var/run/supervisor
   selenium-edge-video:
     container_name: container-selenium-edge-video
-    image: selenium/video:latest
+    image: selenium/video:ffmpeg-4.3.1-20200921
     depends_on:
       - selenium-edge
     environment:
       DISPLAY_CONTAINER_NAME: selenium-edge
       FILE_NAME: selenium-edge_video.mp4
     networks:
-      - network-test
+      - selenium
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
     volumes:
       - type: volume
         source: volume-selenium-edge-video
         target: /videos
-      - type: tmpfs
-        target: /tmp
-      - type: tmpfs
-        target: /var/log/supervisor
-      - type: tmpfs
-        target: /var/run/supervisor
   selenium-firefox:
     container_name: container-selenium-firefox
-    image: selenium/node-firefox:latest
+    image: selenium/node-firefox:4.4.0
     depends_on:
       - selenium-hub
     env_file: .env
+    environment:
+      SE_NODE_HOST: 172.150.5.4
     networks:
-      - network-test
+      selenium:
+        ipv4_address: 172.150.5.4
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
     shm_size: 2G
-    volumes:
-      - type: volume
-        source: volume-selenium-firefox
-        target: /opt/selenium
-      - type: tmpfs
-        target: /tmp
-      - type: tmpfs
-        target: /var/log/supervisor
-      - type: tmpfs
-        target: /var/run/supervisor
   selenium-firefox-video:
     container_name: container-selenium-firefox-video
-    image: selenium/video:latest
+    image: selenium/video:ffmpeg-4.3.1-20200921
     depends_on:
       - selenium-firefox
     environment:
       DISPLAY_CONTAINER_NAME: selenium-firefox
       FILE_NAME: selenium-firefox_video.mp4
     networks:
-      - network-test
+      - selenium
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
     volumes:
       - type: volume
         source: volume-selenium-firefox-video
         target: /videos
-      - type: tmpfs
-        target: /tmp
-      - type: tmpfs
-        target: /var/log/supervisor
-      - type: tmpfs
-        target: /var/run/supervisor
   selenium-hub:
     container_name: container-selenium-hub
+    expose:
+      - "4444"
     healthcheck:
       test:
         [
@@ -156,82 +114,60 @@ services:
       interval: 15s
       timeout: 30s
       retries: 5
-    image: selenium/hub:latest
+    image: selenium/hub:4.4.0
     networks:
-      network-test:
-        aliases:
-          - selenium.local
-    ports:
-      - target: 4444
-        published: 4444
+      test:
+        ipv4_address: 172.150.0.2
+      selenium:
+        ipv4_address: 172.150.5.10
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
-    volumes:
-      - type: tmpfs
-        target: /tmp
-      - type: tmpfs
-        target: /var/log/supervisor
-      - type: tmpfs
-        target: /var/run/supervisor
   selenium-opera:
     container_name: container-selenium-opera
-    image: selenium/node-opera:latest
+    image: selenium/node-opera:4.4.0
     depends_on:
       - selenium-hub
     env_file: .env
+    environment:
+      SE_NODE_HOST: 172.150.5.5
     networks:
-      - network-test
+      selenium:
+        ipv4_address: 172.150.5.5
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
     shm_size: 2G
-    volumes:
-      - type: volume
-        source: volume-selenium-opera
-        target: /opt/selenium
-      - type: tmpfs
-        target: /tmp
-      - type: tmpfs
-        target: /var/log/supervisor
-      - type: tmpfs
-        target: /var/run/supervisor
   selenium-opera-video:
     container_name: container-selenium-opera-video
-    image: selenium/video:latest
+    image: selenium/video:ffmpeg-4.3.1-20200921
     depends_on:
       - selenium-opera
     environment:
       DISPLAY_CONTAINER_NAME: selenium-opera
       FILE_NAME: selenium-opera_video.mp4
     networks:
-      - network-test
+      - selenium
     profiles:
       - test
-    read_only: true
     restart: unless-stopped
     volumes:
       - type: volume
         source: volume-selenium-opera-video
         target: /videos
-      - type: tmpfs
-        target: /tmp
-      - type: tmpfs
-        target: /var/log/supervisor
-      - type: tmpfs
-        target: /var/run/supervisor
 networks:
-  network-test:
-    attachable: true
-    driver: overlay
+  test:
+    name: test-network
+    ipam:
+      config:
+        - subnet: 172.150.0.0/24
+  selenium:
+    name: selenium-network
+    ipam:
+      config:
+        - subnet: 172.150.5.0/24
 volumes:
-  volume-selenium-chrome: null
   volume-selenium-chrome-video: null
-  volume-selenium-edge: null
   volume-selenium-edge-video: null
-  volume-selenium-firefox: null
   volume-selenium-firefox-video: null
-  volume-selenium-opera: null
   volume-selenium-opera-video: null

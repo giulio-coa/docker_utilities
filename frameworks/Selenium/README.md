@@ -1,7 +1,6 @@
 # Guide to use Docker to create a Selenium test enviroment and to run tests on it
 
 # Contents
-* [Pre-requisites](#pre-requisites)
 * [Docker services](#docker-services)
   - [selenium-*](#selenium-)
   - [selenium-*-video](#selenium--video)
@@ -10,13 +9,6 @@
   - [.env](#env)
   - [wait_grid.sh](#waitgridsh)
 * [How to see test results](#how-to-see-test-results)
-
-# Pre-requisites
-The pre-requisite to use Docker is:
-* Run
-```
-sudo -- sh -c -e "echo '127.0.0.1 selenium.local' >> /etc/hosts"
-```
 
 # Docker services
 ## selenium-*
@@ -36,4 +28,4 @@ This file provides the enviroment variables to a Selenium node.
 This file provides the Shell script to run commands after the Selenium Grid is ready.
 
 # How to see test results
-To access to the Selenium Grid and see the test results, go to [selenium.local:4444](http://selenium.local:4444).
+To access to the Selenium Grid and see the test results, go to [`172.150.0.2:4444`](http://172.150.0.2:4444/).
