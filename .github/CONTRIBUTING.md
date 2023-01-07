@@ -1,18 +1,92 @@
 # How to Contribute
 For contribute at this project, open an Issue or a Pull request.
 
-### Rules to Code
+# Code Style Rules
+See the [Google Code Style Rules](https://google.github.io/styleguide/) about the following languages:
+* [Shell](https://google.github.io/styleguide/shellguide.html)
+(I suggest you to use `shfmt` with the options `-i 2 -ci -sr -w -bn`).
 
-* For indentation, use Tabs instead Spaces
-* For the strings delimiter, use `'` except for the formatting character (`"\n"`, `"\t"`, etc.) or for the string that contains variables
-* Every special character must be preceed by a `\` (_i.e._ use `"\'"` instead of `"'"`)
-* If you want insert a variable into a string, surround it with brackets (_i.e._ use `"${var}/iable"` instead of `"$var/iable"`)
-* Each statement doesn't have to be on one line (_i.e._ don't use `if [ ... ]; then`, insert a new line instead of the semicolon)
+# Commit Message Format
+*This specification is inspired by and supersedes the [AngularJS commit message format][https://github.com/angular/angular/blob/main/CONTRIBUTING.md#-commit-message-format].*
+
+We have very precise rules over how our Git commit messages must be formatted. This format leads to **easier to read commit history**.
+Each commit message consists of a **header**, a **body**, and a **footer**.
 ```
-if [ ... ]
-then
+<header>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
 ```
+The `header` is mandatory and must conform to the [Commit Message Header](#commit-message-header) format.
 
-### Util links
+The `body` is mandatory for all commits except for those of type "docs".
+When the body is present it must be at least 20 characters long and must conform to the [Commit Message Body](#commit-message-body) format.
 
+The `footer` is optional. The [Commit Message Footer](#commit-message-footer) format describes what the footer is used for and the structure it must have.
+
+## Commit Message Header
+```
+<type>(<scope>): <short summary>
+```
+The `<type>` and `<summary>` fields are mandatory, the `(<scope>)` field is optional.
+
+### Type
+Must be one of the following:
+* **build**: Changes that affect the build system or external dependencies
+* **ci**: Changes to our CI configuration files and scripts (examples: CircleCi, SauceLabs)
+* **docs**: Documentation only changes
+* **feat**: A new feature
+* **fix**: A bug fix
+* **perf**: A code change that improves performance
+* **refactor**: A code change that neither fixes a bug nor adds a feature
+* **test**: Adding missing tests or correcting existing tests
+
+### Scope
+The scope should be the name of the file affected (as perceived by the person reading the changelog generated from commit messages).
+
+### Summary
+Use the summary field to provide a succinct description of the change:
+* use the imperative, present tense: "change" not "changed" nor "changes"
+* don't capitalize the first letter
+* no dot (.) at the end
+
+## Commit Message Body
+Just as in the summary, use the imperative, present tense: "fix" not "fixed" nor "fixes".
+
+Explain the motivation for the change in the commit message body. This commit message should explain _why_ you are making the change.
+You can include a comparison of the previous behavior with the new behavior in order to illustrate the impact of the change.
+
+## Commit Message Footer
+The footer can contain information about breaking changes and deprecations and is also the place to reference GitHub issues, Jira tickets, and other PRs that this commit closes or is related to.
+For example:
+```
+BREAKING CHANGE: <breaking change summary>
+<BLANK LINE>
+<breaking change description + migration instructions>
+<BLANK LINE>
+<BLANK LINE>
+Fixes #<issue number>
+```
+or
+```
+DEPRECATED: <what is deprecated>
+<BLANK LINE>
+<deprecation description + recommended update path>
+<BLANK LINE>
+<BLANK LINE>
+Closes #<pr number>
+```
+Breaking Change section should start with the phrase "BREAKING CHANGE: " followed by a summary of the breaking change, a blank line, and a detailed description of the breaking change that also includes migration instructions.
+
+Similarly, a Deprecation section should start with "DEPRECATED: " followed by a short description of what is deprecated, a blank line, and a detailed description of the deprecation that also mentions the recommended update path.
+
+## Revert commits
+If the commit reverts a previous commit, it should begin with `revert: `, followed by the header of the reverted commit.
+
+The content of the commit message body should contain:
+* information about the SHA of the commit being reverted in the following format: `This reverts commit <SHA>`.
+* a clear description of the reason for reverting the commit message.
+
+# Util links
 * [How to work with branches](https://www.robinwieruch.de/git-team-workflow)

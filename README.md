@@ -10,7 +10,7 @@ A repository with some utilities for Docker containers.
 	- [start.sh](#startsh)
 
 # databases section
-Questa sezione fornisce alcune utilità per il dump e/o il ripristino di vari tipi di database.
+This section provides some utilities for dumping and/or restoring various types of databases.
 Databases supported:
 * [MongoDB](/databases/MongoDB/README.md)
 * [MySQL and MariaDB](/databases/MySQL/README.md)

@@ -38,5 +38,6 @@ tags
 # Persistent undo
 [._]*.un~
 
-### dotenv ###
-.env
+### DotfilesSh ###
+local-patch
+patched-src

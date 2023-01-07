@@ -1,9 +1,8 @@
 FROM mongo:latest
 
 RUN apt-get update; apt-get upgrade; apt-get install --assume-yes tar; \
-    apt-get autoclean; \
     apt-get autoremove; \
-    apt-get clean
+    apt-get clean all
 
 COPY mongo/init.sh /docker-entrypoint-initdb.d/init.sh
 COPY mongo/demo.tar.bz2 /data/demo.tar.bz2
